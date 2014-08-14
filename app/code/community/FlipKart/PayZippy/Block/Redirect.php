@@ -92,18 +92,20 @@ class FlipKart_PayZippy_Block_Redirect extends Mage_Checkout_Block_Onepage_Abstr
     
     public function getItemDetails($order,$currency) {
         $result = array();
-        $category_names = array();
         foreach($order->getAllItems() as $item) {
             $result['item_total'][]    = $this->convertCurrency($currency,'INR',$item->getPrice());
             $categories                = Mage::getSingleton('catalog/product')->load($item->getProductId())->getCategoryCollection()->exportToArray();
             foreach($categories as $category) {
                 $category_names[]   = Mage::getSingleton('catalog/category')->load($category['entity_id'])->getName();
             }
-	    $category_names = str_replace(",", "_", $category_names);
-            $category_list = implode(',',$category_names);
-            $result['item_vertical'] =  $category_list;
+	        $appended_category = str_replace(",", "_", $category_names);
+            $category_list = implode('|',$appended_category);
+            $result['item_vertical'][] =  $category_list;
+
+            unset($category_names);
         }
         $result['item_total']        =  implode(',',$result['item_total']);
+        $result['item_vertical']        =  implode(',',$result['item_vertical']);
         return $result;
     }
 
