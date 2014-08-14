@@ -71,7 +71,7 @@ class FlipKart_PayZippy_Block_Redirect extends Mage_Checkout_Block_Onepage_Abstr
         if($this->isMobile()) {
             $params['source']              = 'mobile';    
         } else {
-            $params['source']              = 'magento_109';
+            $params['source']              = 'magento_110';
         }
         $params['billing_name']            = $billing_address->getData('firstname');     
         $params['sales_channel']           = '';
